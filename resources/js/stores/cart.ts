@@ -2,6 +2,30 @@ import { defineStore } from 'pinia';
 import http from '../api/http';
 import type { CarritoItem, LineaCarrito, Producto, Venta } from '../types';
 
+// uso una clave para persistir el carrito en localstorage
+export const CARRITO_STORAGE_KEY = 'carrito.items';
+
+// cargo items del localstorage con validacion del array
+function cargarItems(): CarritoItem[] {
+    try {
+        const raw = localStorage.getItem(CARRITO_STORAGE_KEY);
+        if (!raw) return [];
+
+        const parsed: unknown = JSON.parse(raw);
+        if (!Array.isArray(parsed)) return [];
+
+        return parsed.filter(
+            (it): it is CarritoItem =>
+                typeof it === 'object'
+                && it !== null
+                && typeof (it as CarritoItem).product_id === 'number'
+                && typeof (it as CarritoItem).cantidad === 'number',
+        );
+    } catch {
+        return [];
+    }
+}
+
 export interface AgregarResultado {
     ok: boolean;
     message?: string;
@@ -20,19 +44,16 @@ export const useCartStore = defineStore('cart', {
         checkoutError: string | null;
         lastSale: Venta | null;
     } => ({
-        // items: [{ product_id, codigo, detalle, precio_unitario, iva, stock, cantidad }]
-        items: [],
+        items: cargarItems(), // hidratacion desde localstorage
         checkingOut: false,
         checkoutError: null,
         lastSale: null,
     }),
 
     getters: {
+        //getters para calcular totales y lineas con subtotal/iva/total
+        
         cantidadTotal: (state): number => state.items.reduce((acc, it) => acc + it.cantidad, 0),
-
-        // Detalle de cada línea con subtotal / iva / total ya calculados,
-        // en espejo de lo que hace el backend para que lo mostrado en el
-        // carrito coincida con lo que finalmente se persiste.
         lineas: (state): LineaCarrito[] => state.items.map((it) => {
             const subtotal = round2(it.precio_unitario * it.cantidad);
             const ivaMonto = round2(subtotal * (it.iva / 100));

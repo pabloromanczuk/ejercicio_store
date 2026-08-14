@@ -36,10 +36,6 @@ const emit = defineEmits<{
         </v-card-text>
 
         <v-card-text>
-            <p class="text-caption text-medium-emphasis">
-                Podés consultar esta venta vía API en
-                <code>GET /api/sales/{{ sale.id }}</code>
-            </p>
             <v-btn color="primary" variant="flat" block class="mt-2" @click="emit('new-order')">
                 Hacer otra compra
             </v-btn>

@@ -1,2 +1,2 @@
-/** Ruta pública del fallback que se usa cuando un producto no tiene media. */
+//ruta de imagen por defecto para productos sin imagen
 export const FALLBACK_PRODUCT_IMAGE = '/assets/img/products/fallback.png';

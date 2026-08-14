@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ErpController;
+use App\Http\Controllers\Api\HomeBannerController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductMediaController;
 use App\Http\Controllers\Api\SaleController;
@@ -12,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | - GET    /api/products                           -> listado de productos (nombre, precio, stock, media)
+| - GET    /api/products/random                     -> productos al azar (carrusel de accesos rápidos)
+| - GET    /api/home-banners                        -> banners del home (advertisings) activos
 | - POST   /api/products/{product}/media           -> agrega un medio/imagen a un producto
 | - DELETE /api/products/{product}/media/{media}   -> elimina un medio de un producto
 | - GET    /api/sales                              -> historial de ventas (listado con detalle de items)
@@ -26,6 +29,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/random', [ProductController::class, 'random']);
+Route::get('/home-banners', [HomeBannerController::class, 'index']);
 
 Route::post('/products/{product}/media', [ProductMediaController::class, 'store']);
 Route::delete('/products/{product}/media/{media}', [ProductMediaController::class, 'destroy']);

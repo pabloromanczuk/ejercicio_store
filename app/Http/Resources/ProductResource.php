@@ -21,8 +21,6 @@ class ProductResource extends JsonResource
             'stock' => $this->stock,
             'media' => ProductMediaResource::collection($this->whenLoaded('media')),
             'primary_image_url' => $this->primary_image_url,
-            // Indican si el producto tiene precio/stock resueltos correctamente
-            // (lista de precios/depósito válidos y relación existente en el pivote).
             'tiene_precio' => $this->precioVigente !== null,
             'tiene_stock' => $this->stockVigente !== null,
         ];

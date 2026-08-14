@@ -9,10 +9,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
-/**
- * Endpoints de consulta externa para integración con un ERP.
- * Todos son POST y están protegidos por el middleware ErpApiAuth.
- */
 class ErpController extends Controller
 {
     public function POST_pendingSales(): JsonResponse
@@ -65,9 +61,6 @@ class ErpController extends Controller
         ]);
     }
 
-    /**
-     * Estructura de la venta para el ERP: datos de la orden + items anidados.
-     */
     private function formatearVenta(Sale $sale): array
     {
         /** @var Collection<int, SaleItem> $items */

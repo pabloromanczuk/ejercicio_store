@@ -1,13 +1,9 @@
-/**
- * Utilidades puras de formateo (capa de presentación, sin estado).
- */
-
-/** Formatea un importe como moneda local con 2 decimales. */
+//Formatea un importe como moneda local con 2 decimales.
 export function formatMoney(value: number): string {
     return `$${value.toFixed(2)}`;
 }
 
-/** Formatea una fecha ISO como fecha local (dd/mm/aaaa, es-AR). */
+// Formatea una fecha ISO como fecha local (dd/mm/aaaa, es-AR).
 export function formatDate(iso: string): string {
     const date = new Date(iso);
     if (Number.isNaN(date.getTime())) return iso;
@@ -19,7 +15,7 @@ export function formatDate(iso: string): string {
     });
 }
 
-/** Formatea una fecha ISO como hora local (hh:mm, es-AR). */
+// Formatea una fecha ISO como hora local (hh:mm, es-AR).
 export function formatTime(iso: string): string {
     const date = new Date(iso);
     if (Number.isNaN(date.getTime())) return iso;

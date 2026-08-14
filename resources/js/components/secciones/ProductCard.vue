@@ -13,6 +13,10 @@ const props = defineProps<{
     producto: Producto;
 }>();
 
+const emit = defineEmits<{
+    'ver-detalle': [producto: Producto];
+}>();
+
 const cart = useCartStore();
 const cantidad = ref(1);
 const mensaje = ref<string | null>(null);
@@ -62,11 +66,34 @@ function agregar() {
         height="100%"
         elevation="0"
     >
-        <ProductImageGallery :images="imagenes" :alt="producto.detalle" />
+        <div
+            class="product-card__media"
+            role="button"
+            tabindex="0"
+            :aria-label="`Ver detalle de ${producto.detalle}`"
+            @click="emit('ver-detalle', producto)"
+            @keydown.enter.prevent="emit('ver-detalle', producto)"
+        >
+            <ProductImageGallery :images="imagenes" :alt="producto.detalle" />
+            <div class="product-card__overlay">
+                <span class="product-card__ver">
+                    <v-icon size="small">mdi-eye-outline</v-icon>
+                    Ver detalle
+                </span>
+            </div>
+        </div>
 
         <v-card-text>
             <div class="text-overline text-medium-emphasis">Cód. {{ producto.codigo }}</div>
-            <div class="text-h6 font-weight-bold mb-2">{{ producto.detalle }}</div>
+            <div
+                class="text-h6 font-weight-bold mb-2 product-card__titulo"
+                role="button"
+                tabindex="0"
+                @click="emit('ver-detalle', producto)"
+                @keydown.enter.prevent="emit('ver-detalle', producto)"
+            >
+                {{ producto.detalle }}
+            </div>
             <ProductPricing v-if="!sinPrecioConfigurado" :producto="producto" />
         </v-card-text>
 
@@ -136,5 +163,50 @@ function agregar() {
 
 .product-card--disabled:hover {
     box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10), 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.product-card__media {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.product-card__overlay {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    padding: 8px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.25), transparent);
+    pointer-events: none;
+}
+
+.product-card__media:hover .product-card__overlay {
+    opacity: 1;
+}
+
+.product-card__ver {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgb(var(--v-theme-surface));
+    color: rgb(var(--v-theme-on-surface));
+    font-size: 0.75rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-card__titulo {
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.product-card__titulo:hover {
+    color: rgb(var(--v-theme-primary));
 }
 </style>

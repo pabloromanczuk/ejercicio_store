@@ -48,7 +48,7 @@ function next() {
                 color="surface"
                 size="small"
                 :aria-label="`Imagen anterior (${index + 1} de ${urls.length})`"
-                @click="prev"
+                @click.stop="prev"
             ></v-btn>
             <v-btn
                 class="gallery-btn gallery-btn--next"
@@ -57,7 +57,7 @@ function next() {
                 color="surface"
                 size="small"
                 :aria-label="`Imagen siguiente (${index + 1} de ${urls.length})`"
-                @click="next"
+                @click.stop="next"
             ></v-btn>
 
             <div class="gallery-dots">
@@ -68,7 +68,7 @@ function next() {
                     class="gallery-dot"
                     :class="{ 'gallery-dot--active': i === index }"
                     :aria-label="`Ir a la imagen ${i + 1}`"
-                    @click="index = i"
+                    @click.stop="index = i"
                 ></button>
             </div>
         </template>

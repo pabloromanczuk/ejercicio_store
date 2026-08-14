@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -62,6 +63,34 @@ class Product extends Model
             ->join('warehouses', 'warehouses.id', '=', 'warehouse_product.warehouse_id')
             ->join('products', 'products.id', '=', 'warehouse_product.product_id')
             ->whereColumn('warehouses.codigo', 'products.warehouse');
+    }
+
+    /**
+     * Left join de la fila "vigente" de price_list_product (la que corresponde
+     * a la lista indicada en products.pricelist). Permite filtrar y ordenar por
+     * precio en el mismo query que lista los productos, sin depender del front.
+     *
+     * El join es 1:1: la fila se resuelve por products.pricelist, así que no
+     * multiplica filas aunque el producto tenga filas en otras listas.
+     */
+    public function scopeConPrecioVigente(Builder $query): Builder
+    {
+        return $query
+            ->leftJoin('price_list_product as plp_vigente', 'plp_vigente.product_id', '=', 'products.id')
+            ->leftJoin('price_lists as pl_vigente', 'pl_vigente.id', '=', 'plp_vigente.price_list_id')
+            ->whereColumn('pl_vigente.codigo', 'products.pricelist');
+    }
+
+    /**
+     * Left join de la fila "vigente" de warehouse_product (la que corresponde
+     * al depósito indicado en products.warehouse). Análogo a conPrecioVigente.
+     */
+    public function scopeConStockVigente(Builder $query): Builder
+    {
+        return $query
+            ->leftJoin('warehouse_product as wp_vigente', 'wp_vigente.product_id', '=', 'products.id')
+            ->leftJoin('warehouses as w_vigente', 'w_vigente.id', '=', 'wp_vigente.warehouse_id')
+            ->whereColumn('w_vigente.codigo', 'products.warehouse');
     }
 
     /**

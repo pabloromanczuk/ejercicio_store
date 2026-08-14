@@ -25,7 +25,6 @@ class ImportProductMedia extends Command
 
         $archivos = collect(scandir($dir))
             ->filter(fn (string $f) => in_array(strtolower(pathinfo($f, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'webp'], true))
-            // El fallback no es la imagen de un producto: no debe registrarse.
             ->reject(fn (string $f) => $this->esFallback($f))
             ->values();
 
@@ -43,7 +42,6 @@ class ImportProductMedia extends Command
         foreach ($archivos as $archivo) {
             $path = trim($this->option('path'), '/').'/'.$archivo;
 
-            // Idempotencia: si el path ya está registrado, no lo duplicamos.
             if (ProductMedia::where('path', $path)->exists()) {
                 $this->line("Ya registrado: {$path}");
                 continue;

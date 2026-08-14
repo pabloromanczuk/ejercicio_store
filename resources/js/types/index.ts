@@ -1,45 +1,32 @@
 /**
  * Tipos del frontend, espejo de los Resources de Laravel
- * (ProductResource, SaleResource, SaleItemResource).
+ * (ProductResource, SaleResource,etc).
  */
 
-/** Producto tal como lo devuelve GET /api/products. */
 export interface Producto {
     id: number;
     codigo: number;
     detalle: string;
-    /** Código de la lista de precios activa del producto. */
     pricelist: string | null;
-    /** Código del depósito donde el producto tiene stock. */
     warehouse: string | null;
-    /** Precio unitario resuelto desde la lista vigente (sin IVA). */
     precio_unitario: number;
-    /** IVA porcentual resuelto desde la lista vigente. */
     iva: number;
-    /** Precio unitario con IVA incluido. */
     precio_con_iva: number;
     stock: number;
-    /** Medios asociados al producto (imágenes), si vienen cargados. */
     media?: ProductMedia[];
-    /** URL de la imagen principal (o del fallback si el producto no tiene media). */
     primary_image_url: string;
-    /** Si el producto tiene precio resuelto (lista válida + relación en el pivote). */
     tiene_precio: boolean;
-    /** Si el producto tiene stock resuelto (depósito válido + relación en el pivote). */
     tiene_stock: boolean;
 }
 
-/** Medio asociado a un producto, tal como lo devuelve ProductMediaResource. */
 export interface ProductMedia {
     id: number;
     type: string;
-    /** URL pública generada dinámicamente a partir del path. */
     url: string;
     sort_order: number;
     is_primary: boolean;
 }
 
-/** Ítem de venta, tal como lo devuelve SaleItemResource. */
 export interface SaleItem {
     product_id: number;
     codigo: number;
@@ -52,7 +39,6 @@ export interface SaleItem {
     total: number;
 }
 
-/** Venta, tal como la devuelve SaleResource. */
 export interface Venta {
     id: number;
     numero: string;
@@ -70,7 +56,17 @@ export interface Venta {
     };
 }
 
-/** Línea almacenada en el carrito (estado del store). */
+export interface HomeBanner {
+    id: number;
+    image: string;
+    title: string | null;
+    subtitle: string | null;
+    link: string | null;
+    url: string;
+    sort_order: number;
+    is_active: boolean;
+}
+
 export interface CarritoItem {
     product_id: number;
     codigo: number;
@@ -81,7 +77,6 @@ export interface CarritoItem {
     cantidad: number;
 }
 
-/** Línea del carrito con subtotal / iva / total ya calculados (getter lineas). */
 export interface LineaCarrito extends CarritoItem {
     subtotal: number;
     ivaMonto: number;

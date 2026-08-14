@@ -7,13 +7,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class SaleResource extends JsonResource
 {
-    /**
-     * Estructura pensada para que un integrador externo tome esta venta
-     * y grabe la nota de venta en un ERP: incluye número de comprobante,
-     * fecha, moneda, totales discriminados y el detalle línea por línea
-     * con el snapshot de precio/IVA que efectivamente se vendió (no el
-     * precio actual del catálogo, que puede haber cambiado).
-     */
     public function toArray(Request $request): array
     {
         return [

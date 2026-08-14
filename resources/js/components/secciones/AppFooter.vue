@@ -18,13 +18,11 @@ const redes: RedSocial[] = [
         <div
             class="d-flex flex-column flex-sm-row align-center justify-space-between w-100 ga-4"
         >
-            <!-- texto como logo -->
             <div class="d-flex align-center ga-2">
                 <v-icon icon="mdi-cart" color="primary"></v-icon>
                 <span class="text-h6 font-weight-bold">Tienda</span>
             </div>
 
-            <!-- botones redes sociales -->
             <div class="d-flex align-center ga-2">
                 <v-btn
                     v-for="red in redes"

@@ -7,6 +7,7 @@ import AppFooter from '../components/secciones/AppFooter.vue';
 import ToastHost from '../components/elementos/ToastHost.vue';
 
 const emit = defineEmits<{
+    home: [];
     checkout: [];
     history: [];
     catalog: [];
@@ -37,6 +38,15 @@ function handleCheckout() {
                     icon
                     variant="text"
                     class="ml-2"
+                    aria-label="Ir al inicio"
+                    @click="emit('home')"
+                >
+                    <v-icon icon="mdi-home-outline"></v-icon>
+                </v-btn>
+
+                <v-btn
+                    icon
+                    variant="text"
                     aria-label="Ir a la tienda"
                     @click="emit('catalog')"
                 >
@@ -44,7 +54,7 @@ function handleCheckout() {
                 </v-btn>
             </template>
 
-            <v-app-bar-title>Hace tu compra</v-app-bar-title>
+            <v-app-bar-title class="cursor-pointer" @click="emit('home')">Hace tu compra</v-app-bar-title>
 
             <template #append>
                 <v-btn
