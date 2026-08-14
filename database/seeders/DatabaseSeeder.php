@@ -12,6 +12,8 @@ class DatabaseSeeder extends Seeder
             WarehouseSeeder::class,
             PriceListSeeder::class,
             ProductSeeder::class,
+            ProductosExtrasSeeder::class,
+            HomeBannerSeeder::class,
         ]);
     }
 }

@@ -17,7 +17,7 @@ class ProductSeeder extends Seeder
      * normalizamos todo acá antes de persistir, para que las tablas queden
      * siempre con tipos numéricos consistentes.
      *
-     * El producto ya NO guarda precio ni stock: solo los códigos de su lista
+     * El producto solo guarda los códigos de su lista
      * de precios (products.pricelist) y su depósito (products.warehouse).
      * El precio/IVA viven en price_list_product (self::PRECIOS) y el stock
      * en warehouse_product (self::STOCK).
@@ -28,20 +28,12 @@ class ProductSeeder extends Seeder
         ['codigo' => 711, 'detalle' => 'Peras', 'pricelist' => 'LISTA-MAYORISTA', 'warehouse' => 'GENERAL'],
     ];
 
-    /**
-     * Asignación lista-producto: precio e IVA que aplican para cada producto
-     * según la lista que tiene asignada.
-     */
     private const PRECIOS = [
         ['codigo' => 324, 'lista' => 'LISTA-PUBLICA', 'precio_unitario' => 500.25, 'iva' => 21],
         ['codigo' => 637, 'lista' => 'LISTA-PUBLICA', 'precio_unitario' => '334.336', 'iva' => 13],
         ['codigo' => 711, 'lista' => 'LISTA-MAYORISTA', 'precio_unitario' => '147,10', 'iva' => 21],
     ];
 
-    /**
-     * Asignación depósito-producto: cantidad de stock de cada producto en su
-     * depósito.
-     */
     private const STOCK = [
         ['codigo' => 324, 'deposito' => 'GENERAL', 'stock' => 45],
         ['codigo' => 637, 'deposito' => 'GENERAL', 'stock' => '14'],
@@ -92,10 +84,6 @@ class ProductSeeder extends Seeder
         }
     }
 
-    /**
-     * Acepta números, strings con punto decimal ("334.336") o coma
-     * decimal ("147,10") y devuelve siempre un float con punto decimal.
-     */
     private function normalizarPrecio(int|float|string $valor): float
     {
         return round($this->normalizarNumero($valor), 2);

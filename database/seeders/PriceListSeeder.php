@@ -7,10 +7,6 @@ use Illuminate\Database\Seeder;
 
 class PriceListSeeder extends Seeder
 {
-    /**
-     * Versiones de listas de precios. El producto referencia su lista activa
-     * guardando el código en products.pricelist.
-     */
     private const PRICE_LISTS = [
         [
             'codigo' => 'LISTA-PUBLICA',
